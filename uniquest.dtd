@@ -1,0 +1,9 @@
+<!ELEMENT university (user+)>
+
+<!ELEMENT user (user-id, user-name, user-phone, user-email, user-course, user-address)>
+<!ELEMENT user-id (#PCDATA)>
+<!ELEMENT user-name (#PCDATA)>
+<!ELEMENT user-phone (#PCDATA)>
+<!ELEMENT user-email (#PCDATA)>
+<!ELEMENT user-course (#PCDATA)>
+<!ELEMENT user-address (#PCDATA)>

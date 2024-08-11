@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="uniquest.xsl" type="text/xsl"?>
+<!-- <!DOCTYPE university SYSTEM "uniquest.dtd"> -->
+<university xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="https://www.university.com/uniQuest uniquest.xsd" xmlns="https://www.university.com/uniQuest">
+         
+  <users>
+    <user>
+      <user-id>101</user-id>
+      <user-name>Sujay Sharma</user-name>
+      <user-phone>8766264001</user-phone>
+      <user-email>sujay.sharma@gmail.com</user-email>
+      <user-course>MCA</user-course>
+      <user-address>Bengaluru</user-address>
+    </user>
+    <user>
+      <user-id>102</user-id>
+      <user-name>Yaash Sharma</user-name>
+      <user-phone>8766264002</user-phone>
+      <user-email>yaash.sharma@gmail.com</user-email>
+      <user-course>BCA</user-course>
+      <user-address>Mumbai</user-address>
+    </user>
+    <user>
+      <user-id>103</user-id>
+      <user-name>Aditi Singh</user-name>
+      <user-phone>8766264003</user-phone>
+      <user-email>aditi.singh@gmail.com</user-email>
+      <user-course>BBA</user-course>
+      <user-address>Delhi</user-address>
+    </user>
+    <user>
+      <user-id>104</user-id>
+      <user-name>Karan Verma</user-name>
+      <user-phone>8766264004</user-phone>
+      <user-email>karan.verma@gmail.com</user-email>
+      <user-course>MBA</user-course>
+      <user-address>Pune</user-address>
+    </user>
+    <user>
+      <user-id>105</user-id>
+      <user-name>Rohan Gupta</user-name>
+      <user-phone>8766264005</user-phone>
+      <user-email>rohan.gupta@gmail.com</user-email>
+      <user-course>B.Tech</user-course>
+      <user-address>Kolkata</user-address>
+    </user>
+    <user>
+      <user-id>106</user-id>
+      <user-name>Meera Iyer</user-name>
+      <user-phone>8766264006</user-phone>
+      <user-email>meera.iyer@gmail.com</user-email>
+      <user-course>BA</user-course>
+      <user-address>Chennai</user-address>
+    </user>
+    <user>
+      <user-id>107</user-id>
+      <user-name>Sameer Khan</user-name>
+      <user-phone>8766264007</user-phone>
+      <user-email>sameer.khan@gmail.com</user-email>
+      <user-course>B.Com</user-course>
+      <user-address>Hyderabad</user-address>
+    </user>
+    <user>
+      <user-id>108</user-id>
+      <user-name>Pooja Reddy</user-name>
+      <user-phone>8766264008</user-phone>
+      <user-email>pooja.reddy@gmail.com</user-email>
+      <user-course>M.Tech</user-course>
+      <user-address>Bengaluru</user-address>
+    </user>
+  </users>
+</university>
+
