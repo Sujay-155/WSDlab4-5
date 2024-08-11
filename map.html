@@ -1,83 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniQuest Map</title>
+    <title>OpenStreetMap with Routing</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""/>
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
-
-    <!-- Make sure you put this AFTER Leaflet's CSS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-    <style>
-        header {
-            margin: 50px 0px 0px 0px;
-            display: flex;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 700;
-        }
-        #map {
-            width: 100%;
-            height: 85vh;
-        }
-    </style>
 </head>
 <body>
-    <header>UniQuest Map</header>
-    <div class="Map" id="map"></div>
-
+    <div id="map" style="height: 900px;"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
     <script>
-        // Fixed location (e.g., a university or landmark)
-        const fixedLocation = { lat: 12.9716, lng: 77.5946 }; // Bangalore, India
-        
-        if ('geolocation' in navigator) {
-            navigator.geolocation.getCurrentPosition(pos => {
-                const userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-                initializeMap(userLocation, fixedLocation);
-            }, error => {
-                console.error(error);
-                // Fallback if geolocation fails
-                const fallbackLocation = { lat: 12.93458, lng: 77.60578 }; // Default fallback location
-                initializeMap(fallbackLocation, fixedLocation);
-            });
-        } else {
-            console.log("Geolocation is not available.");
-            // Fallback if geolocation is not available
-            const fallbackLocation = { lat: 12.93458, lng: 77.60578 };
-            initializeMap(fallbackLocation, fixedLocation);
-        }
+        // Predefined location (replace with your desired coordinates)
+const destination = { lat: 12.9696365, lng: 77.7497448 }; // Whitefield, Bangalore
 
-        function initializeMap(userLocation, fixedLocation) {
-            var map = L.map('map').setView([userLocation.lat, userLocation.lng], 13);
+// Function to initialize the map and route
+function initializeMap(userLocation) {
+    const map = L.map('map').setView([userLocation.lat, userLocation.lng], 13);
 
-            L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                attribution: "OSM"
-            }).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
 
-            L.marker([fixedLocation.lat, fixedLocation.lng]).addTo(map)
-                .bindPopup('Fixed Location')
-                .openPopup();
+    L.marker([userLocation.lat, userLocation.lng]).addTo(map)
+        .bindPopup('Your location')
+        .openPopup();
 
-            L.marker([userLocation.lat, userLocation.lng]).addTo(map)
-                .bindPopup('Your Location')
-                .openPopup();
+    L.marker([destination.lat, destination.lng]).addTo(map)
+        .bindPopup('Destination')
+        .openPopup();
 
-            L.Routing.control({
-                waypoints: [
-                    L.latLng(userLocation.lat, userLocation.lng),
-                    L.latLng(fixedLocation.lat, fixedLocation.lng)
-                ]
-            }).on('routesfound', function (e) {
-                var routes = e.routes;
-                console.log(routes);
-            }).addTo(map);
-        }
+    L.Routing.control({
+        waypoints: [
+            L.latLng(userLocation.lat, userLocation.lng),
+            L.latLng(destination.lat, destination.lng)
+        ]
+    }).addTo(map);
+}
+
+// Get user's location
+navigator.geolocation.getCurrentPosition(
+    (position) => {
+        const userLocation = { lat: position.coords.latitude, lng: position.coords.longitude };
+        initializeMap(userLocation);
+    },
+    (error) => {
+        console.error(error);
+        // Handle geolocation error (e.g., use a default location)
+    }
+);
+
     </script>
 </body>
 </html>
