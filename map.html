@@ -3,87 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TeamStreamRouter</title>
+    <title>UniQuest Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
     crossorigin=""/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
 
-<!-- Make sure you put this AFTER Leaflet's CSS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-crossorigin=""></script>
-<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-<style>
-    
-    header{
-        margin: 50px 0px 0px 0px;
-        display: flex;
-        justify-content: center;
-        font-size: 2rem;
-        font-weight: 700;
-    }
-    #map{
-        width: 100%;
-        height: 85vh;
-    }
-</style>
-<script>
-
-    if ('geolocation' in navigator){
-    navigator.geolocation.getCurrentPosition(pos=>{
-        console.log(pos.coords);
-        var map = L.map('map').setView([pos.coords.latitude, pos.coords.longitude], 13);
-                    L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                        attribution: "OSM"
-                    }).addTo(map);
-
-                    L.marker([pos.coords.latitude, pos.coords.longitude]).addTo(map)
-                        .bindPopup('You are here')
-                        .openPopup();
-
-
-            map.on('click', function (e) {
-			console.log(e)
-			var newMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
-			L.Routing.control({
-				waypoints: [
-					L.latLng(pos.coords.latitude, pos.coords.longitude),
-					L.latLng(e.latlng.lat, e.latlng.lng)
-				]
-			}).on('routesfound', function (e) {
-				var routes = e.routes;
-				console.log(routes);
-				e.routes[0].coordinates.forEach(function (coord, index) {
-					setTimeout(function () {
-						marker.setLatLng([coord.lat, coord.lng]);
-					}, 100 * index)
-				})
-
-			}).addTo(map);
-		});
-            
-            
-    },error => {
-        console.log(pos.coords);
-          // Display the map
-        var map = L.map('map').setView([12.93458, 77.60578 ], 13);
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    }).addTo(map);
-                    L.marker([12.93458, 77.60578 ]).addTo(map)
-                        .bindPopup('You are here')
-                        .openPopup();
-    }
-);
-    } else{
-    console.log("No geo location object available");
-    }
-    </script>
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <style>
+        header {
+            margin: 50px 0px 0px 0px;
+            display: flex;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        #map {
+            width: 100%;
+            height: 85vh;
+        }
+    </style>
 </head>
 <body>
     <header>UniQuest Map</header>
-    <div class="Map" id="map">
-    </div>
+    <div class="Map" id="map"></div>
+
+    <script>
+        // Fixed location (e.g., a university or landmark)
+        const fixedLocation = { lat: 12.9716, lng: 77.5946 }; // Bangalore, India
+        
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(pos => {
+                const userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+                initializeMap(userLocation, fixedLocation);
+            }, error => {
+                console.error(error);
+                // Fallback if geolocation fails
+                const fallbackLocation = { lat: 12.93458, lng: 77.60578 }; // Default fallback location
+                initializeMap(fallbackLocation, fixedLocation);
+            });
+        } else {
+            console.log("Geolocation is not available.");
+            // Fallback if geolocation is not available
+            const fallbackLocation = { lat: 12.93458, lng: 77.60578 };
+            initializeMap(fallbackLocation, fixedLocation);
+        }
+
+        function initializeMap(userLocation, fixedLocation) {
+            var map = L.map('map').setView([userLocation.lat, userLocation.lng], 13);
+
+            L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: "OSM"
+            }).addTo(map);
+
+            L.marker([fixedLocation.lat, fixedLocation.lng]).addTo(map)
+                .bindPopup('Fixed Location')
+                .openPopup();
+
+            L.marker([userLocation.lat, userLocation.lng]).addTo(map)
+                .bindPopup('Your Location')
+                .openPopup();
+
+            L.Routing.control({
+                waypoints: [
+                    L.latLng(userLocation.lat, userLocation.lng),
+                    L.latLng(fixedLocation.lat, fixedLocation.lng)
+                ]
+            }).on('routesfound', function (e) {
+                var routes = e.routes;
+                console.log(routes);
+            }).addTo(map);
+        }
+    </script>
 </body>
 </html>
